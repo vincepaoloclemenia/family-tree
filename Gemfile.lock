@@ -27,8 +27,5 @@ DEPENDENCIES
   pry
   rspec
 
-RUBY VERSION
-   ruby 2.5.7p206
-
 BUNDLED WITH
    2.2.15
