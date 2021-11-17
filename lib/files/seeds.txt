@@ -49,3 +49,6 @@ ADD_CHILD "Alice" "Ginny" "Female"
 
 ADD_CHILD "Luna" "Lola" "Female
 GET_RELATIONSHIP "Luna" "Maternal-Aunt"
+
+ADD_CHILD "Ted" "Bella" "Female"
+GET_RELATIONSHIP "Remus" "Siblings"

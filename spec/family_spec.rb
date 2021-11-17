@@ -27,7 +27,10 @@ describe Family do
         .to be_falsy
 
       expect(instance.get_relationship(name: 'Minerva', relationship: 'Siblings'))
-        .to eq('Dominique Louis Victoire')
+        .to eq('Victoire Dominique Louis')
+
+      expect(instance.get_relationship(name: 'Lily', relationship: 'Sister-In-Law'))
+        .to eq('Darcy Alice')
     end
   end
 end

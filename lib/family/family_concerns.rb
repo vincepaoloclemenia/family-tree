@@ -6,7 +6,7 @@ class Family
 
     module Commands
       def add_child(mother_name:, child_name:, gender:)
-        mother = Member.find_by_name! mother_name
+        mother = Member.find_by_name_and_gender! mother_name, FEMALE
 
         new_child = Member.new(name: child_name, gender: gender)
 
@@ -41,7 +41,7 @@ class Family
                        :maternal_uncle, :son, :daughter, :sister_in_law, :brother_in_law
                      member.public_send("#{relationship}_names")
                    else
-                     'None'
+                     NONE
                    end
         )
 
@@ -51,10 +51,8 @@ class Family
       end
 
       def make_couple(female_name:, male_name:)
-        (bride = Member.find_by_name_and_gender(female_name, FEMALE)).nil? and
-          raise PersonNotFound, PERSON_NOT_FOUND
-        (groom = Member.find_by_name_and_gender(male_name, MALE)).nil? and
-          raise PersonNotFound, PERSON_NOT_FOUND
+        bride = Member.find_by_name_and_gender!(female_name, FEMALE)
+        groom = Member.find_by_name_and_gender!(male_name, MALE)
 
         bride.spouse = groom
         puts COUPLE_MARRIED

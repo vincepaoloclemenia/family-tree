@@ -20,12 +20,13 @@ class Family
 
       @sons = []
       @daughters = []
+      @children = []
 
       self.class.all.push self
     end
 
     attr_accessor :name, :gender, :wife, :husband, :sons,
-                  :father, :mother, :daughters
+                  :father, :mother, :daughters, :children
 
     def self.find_by_name(name)
       all.find { |m| m.name.downcase == name.downcase }
@@ -33,6 +34,13 @@ class Family
 
     def self.find_by_name_and_gender(name, gender)
       all.find { |m| m.name.downcase == name.downcase && m.gender == gender.downcase.to_sym }
+    end
+
+    def self.find_by_name_and_gender!(name, gender)
+      (member = find_by_name_and_gender name, gender).nil? and
+        raise PersonNotFound, PERSON_NOT_FOUND
+
+      member
     end
 
     def self.find_by_name!(name)
@@ -65,11 +73,11 @@ class Family
 
       define_method "#{method_name}_in_law_names" do
         if method_name == 'brother'
-          return 'None' if brothers_in_law.empty?
+          return NONE if brothers_in_law.empty?
 
           brothers_in_law.map(&:name).join(' ')
         else
-          return 'None' if sisters_in_law.empty?
+          return NONE if sisters_in_law.empty?
 
           sisters_in_law.map(&:name).join(' ')
         end
@@ -87,11 +95,11 @@ class Family
 
       define_method "#{method_name}_uncle_names" do
         if method_name == 'paternal'
-          return 'None' if paternal_uncles.empty?
+          return NONE if paternal_uncles.empty?
 
           paternal_uncles.map(&:name).join(' ')
         else
-          return 'None' if maternal_uncles.empty?
+          return NONE if maternal_uncles.empty?
 
           maternal_uncles.map(&:name).join(' ')
         end
@@ -107,11 +115,11 @@ class Family
 
       define_method "#{method_name}_aunt_names" do
         if method_name == 'maternal'
-          return 'None' if maternal_aunts.empty?
+          return NONE if maternal_aunts.empty?
 
           maternal_aunts.map(&:name).join(' ')
         else
-          return 'None' if paternal_aunts.empty?
+          return NONE if paternal_aunts.empty?
 
           paternal_aunts.map(&:name).join(' ')
         end
@@ -131,13 +139,15 @@ class Family
     end
 
     def siblings
-      [*brothers, *sisters]
+      return [] if mother.nil?
+
+      mother.children - [self]
     end
 
     def siblings_names
-      return 'None' if siblings.empty?
+      return NONE if siblings.empty?
 
-      siblings.map(&:name).sort.join(' ')
+      siblings.map(&:name).join(' ')
     end
 
     def spouse=(partner)

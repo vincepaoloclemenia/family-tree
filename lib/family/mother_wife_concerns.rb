@@ -14,12 +14,15 @@ class Family
           child.father = husband
 
           if child.male?
-            sons.push child
-            husband.sons.push(child) unless husband.nil?
-          else
-            daughters.push child
-            husband.daughters.push(child) unless husband.nil?
+            sons.append child
+            husband.sons.append(child) unless husband.nil?
+          elsif child.female?
+            daughters.append child
+            husband.daughters.append(child) unless husband.nil?
           end
+
+          children.append(child)
+          husband.children.append(child) unless husband.nil?
         end
       end
 
@@ -35,18 +38,14 @@ class Family
         mother.sisters
       end
 
-      def children
-        [*sons, *daughters]
-      end
-
       def son_names
-        return 'None' if sons.empty?
+        return NONE if sons.empty?
 
         sons.map(&:name).join(' ')
       end
 
       def daughter_names
-        return 'None' if daughters.empty?
+        return NONE if daughters.empty?
 
         daughters.map(&:name).join(' ')
       end
