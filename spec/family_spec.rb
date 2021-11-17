@@ -1,40 +1,33 @@
 require 'rspec'
 require 'pry'
+require 'family/family_concerns'
 require 'family'
-require 'family/person'
-require 'family/male'
-require 'family/female'
-require 'family/father'
-require 'family/mother'
-require 'family/son'
-require 'family/daughter'
+require 'family/mother_wife_concerns'
+require 'family/father_husband_concerns'
+require 'family/member'
 
 describe Family do
-  let!(:instance) do
+  let(:instance) do
     described_class.new
+  end
+
+  before(:each) do
+    described_class::Member.all = []
   end
 
   context 'when instantiating' do
     it 'builds the members of the family' do
-      expect(described_class::Mother.all).not_to be_empty
-      expect(described_class::Father.all).not_to be_empty
+      expect(instance).to be_truthy
+      expect(described_class::Member.all.count).to eq(31)
+
+      expect(instance.get_relationship(name: 'Remus', relationship: 'Maternal-Aunt'))
+        .to eq('Dominique')
+
+      expect(instance.add_child(mother_name: 'Flora', child_name: 'Minerva', gender: 'Female').nil?)
+        .to be_falsy
+
+      expect(instance.get_relationship(name: 'Minerva', relationship: 'Siblings'))
+        .to eq('Dominique Louis Victoire')
     end
-  end
-
-  context 'when getting relationship' do
-    let(:name) { 'Bill' }
-
-    context 'when looking for siblings' do
-      let(:relationship) { 'Siblings' }
-
-      it do
-        expect(siblings = instance.get_relationship(name: name, relationship: relationship)).not_to be_empty
-        expect(siblings).to eq('Charlie, Ginerva, Percy, Ronald')
-      end
-    end
-  end
-
-  context 'when getting maternal aunt' do
-    
   end
 end

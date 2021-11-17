@@ -1,0 +1,51 @@
+ADD_CHILD "Margaret" "Bill" "Male"
+ADD_CHILD "Margaret" "Charlie" "Male"
+ADD_CHILD "Margaret" "Percy" "Male"
+ADD_CHILD "Margaret" "Ronald" "Male"
+ADD_CHILD "Margaret" "Ginerva" "Female"
+
+ADD_MEMBER "Audrey" "Female"
+ADD_MEMBER "Flora" "Female"
+ADD_MEMBER "Helen" "Female"
+ADD_MEMBER "Harry" "Male"
+
+MAKE_COUPLE "Ginerva" "Harry"
+MAKE_COUPLE "Flora" "Bill"
+MAKE_COUPLE "Audrey" "Percy"
+MAKE_COUPLE "Helen" "Ronald"
+
+ADD_CHILD "Ginerva" "James" "Male"
+ADD_CHILD "Ginerva" "Albus" "Male"
+ADD_CHILD "Ginerva" "Lily" "Female"
+
+ADD_CHILD "Helen" "Hugo" "Male"
+ADD_CHILD "Helen" "Rose" "Female"
+
+ADD_CHILD "Audrey" "Molly" "Female"
+ADD_CHILD "Audrey" "Lucy" "Female"
+
+ADD_CHILD "Flora" "Victoire" "Female"
+ADD_CHILD "Flora" "Dominique" "Female"
+ADD_CHILD "Flora" "Louis" "Male"
+
+ADD_MEMBER "Ted" "Male"
+ADD_MEMBER "Malfoy" "Male"
+ADD_MEMBER "Darcy" "Female"
+ADD_MEMBER "Alice" "Female"
+
+MAKE_COUPLE "Victoire" "Ted"
+MAKE_COUPLE "Rose" "Malfoy"
+MAKE_COUPLE "Darcy" "James"
+MAKE_COUPLE "Alice" "Albus"
+
+ADD_CHILD "Victoire" "Remus" "Male"
+
+ADD_CHILD "Rose" "Draco" "Male"
+ADD_CHILD "Rose" "Aster" "Female"
+
+ADD_CHILD "Darcy" "William" "Male"
+ADD_CHILD "Alice" "Ron" "Male"
+ADD_CHILD "Alice" "Ginny" "Female"
+
+ADD_CHILD "Luna" "Lola" "Female
+GET_RELATIONSHIP "Luna" "Maternal-Aunt"

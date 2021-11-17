@@ -31,10 +31,15 @@ class Family
       all.find { |m| m.name.downcase == name.downcase }
     end
 
+    def self.find_by_name_and_gender(name, gender)
+      all.find { |m| m.name.downcase == name.downcase && m.gender == gender.downcase.to_sym }
+    end
+
     def self.find_by_name!(name)
-      member = find_by_name name
-      member.nil? and
-        raise FamilyMemberNotFound, CHILD_ADDITION_FAILED
+      (member = find_by_name name).nil? and
+        raise PersonNotFound, PERSON_NOT_FOUND
+
+      member
     end
 
     %w[brother sister].each do |method_name|
@@ -62,11 +67,11 @@ class Family
         if method_name == 'brother'
           return 'None' if brothers_in_law.empty?
 
-          brothers_in_law.map(&:name).join(', ')
+          brothers_in_law.map(&:name).join(' ')
         else
           return 'None' if sisters_in_law.empty?
 
-          sisters_in_law.map(&:name).join(', ')
+          sisters_in_law.map(&:name).join(' ')
         end
       end
     end
@@ -84,11 +89,11 @@ class Family
         if method_name == 'paternal'
           return 'None' if paternal_uncles.empty?
 
-          paternal_uncles.map(&:name).join(', ')
+          paternal_uncles.map(&:name).join(' ')
         else
           return 'None' if maternal_uncles.empty?
 
-          maternal_uncles.map(&:name).join(', ')
+          maternal_uncles.map(&:name).join(' ')
         end
       end
 
@@ -97,6 +102,18 @@ class Family
           mother_sisters
         else
           father_sisters
+        end
+      end
+
+      define_method "#{method_name}_aunt_names" do
+        if method_name == 'maternal'
+          return 'None' if maternal_aunts.empty?
+
+          maternal_aunts.map(&:name).join(' ')
+        else
+          return 'None' if paternal_aunts.empty?
+
+          paternal_aunts.map(&:name).join(' ')
         end
       end
     end
@@ -120,7 +137,7 @@ class Family
     def siblings_names
       return 'None' if siblings.empty?
 
-      siblins.map(&:name).sort.join(', ')
+      siblings.map(&:name).sort.join(' ')
     end
 
     def spouse=(partner)

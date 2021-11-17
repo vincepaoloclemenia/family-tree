@@ -42,13 +42,13 @@ class Family
       def son_names
         return 'None' if sons.empty?
 
-        sons.map(&:name).join(', ')
+        sons.map(&:name).join(' ')
       end
 
       def daughter_names
         return 'None' if daughters.empty?
 
-        daughters.map(&:name).join(', ')
+        daughters.map(&:name).join(' ')
       end
     end
 

@@ -1,5 +1,6 @@
 require 'rspec'
 require 'pry'
+require 'family/family_concerns'
 require 'family'
 require 'family/mother_wife_concerns'
 require 'family/father_husband_concerns'

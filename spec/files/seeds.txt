@@ -1,1 +1,0 @@
-ADD_CHILD "Queen Margarette" "Bill" "Male"
