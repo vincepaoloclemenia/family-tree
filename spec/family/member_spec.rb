@@ -101,7 +101,7 @@ describe Family::Member do
             let!(:grandson) { described_class.new(name: 'Vincent', gender: Family::MALE) }
             let!(:granddaughter) { described_class.new(name: 'Margarette', gender: Family::FEMALE) }
 
-            it do
+            it 'allows children to check for their uncles and aunts from their parents' do
               son_wife.add_child granddaughter
               daughter.add_child grandson
 
