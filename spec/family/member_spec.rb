@@ -45,15 +45,19 @@ describe Family::Member do
       end
 
       context 'when adding children' do
-        let!(:son) { described_class.new(name: 'Tyler', gender: Family::MALE) }
-        let!(:daughter) { described_class.new(name: 'Astrid', gender: Family::FEMALE) }
-        let(:children) { [son, daughter] }
-        let!(:expected_member_count) { 4 }
-
+        let(:son_name) { 'Tyler' }
+        let(:son_gender) { Family::MALE }
+        let(:daughter_name) { 'Astrid' }
+        let(:daughter_gender) { Family::FEMALE }
+        let(:expected_member_count) { 4 }
+        let(:son) { Family::Member.find_by_name! son_name }
+        let(:daughter) { Family::Member.find_by_name! daughter_name }
+        let(:children) { mother.children }
         it_behaves_like 'it adds new member'
 
         before do
-          mother.add_child children
+          mother.add_child child_name: son_name, gender: son_gender
+          mother.add_child child_name: daughter_name, gender: daughter_gender
         end
 
         it 'adds brothers relationship' do
@@ -98,12 +102,15 @@ describe Family::Member do
           end
 
           context 'when adding grand children' do
-            let!(:grandson) { described_class.new(name: 'Vincent', gender: Family::MALE) }
-            let!(:granddaughter) { described_class.new(name: 'Margarette', gender: Family::FEMALE) }
+            let(:grandson_name) { 'Vincent' }
+            let!(:granddaughter_name) { 'Margarette' }
 
             it 'allows children to check for their uncles and aunts from their parents' do
-              son_wife.add_child granddaughter
-              daughter.add_child grandson
+              son_wife.add_child child_name: granddaughter_name, gender: Family::FEMALE
+              daughter.add_child child_name: grandson_name, gender: Family::MALE
+
+              granddaughter = son_wife.look_for_my_child(name: granddaughter_name, gender: Family::FEMALE)
+              grandson = daughter.look_for_my_child(name: grandson_name, gender: Family::MALE)
 
               expect(son_wife.children).to eq([granddaughter])
               expect(granddaughter.mother).to eq(son_wife)

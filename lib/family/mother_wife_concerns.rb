@@ -6,24 +6,28 @@ class Family
     end
 
     module MotherInstanceMethods
-      def add_child(child_or_children)
-        child_or_children = [child_or_children] unless child_or_children.is_a?(Array)
+      def look_for_my_child(name:, gender:)
+        children.find { |c| c.name == name && c.gender == gender.downcase.to_sym }
+      end
 
-        child_or_children.each do |child|
-          child.mother = self
-          child.father = husband
+      def add_child(child_name:, gender:)
+        child = look_for_my_child(name: child_name, gender: gender)
+        return if child
 
-          if child.male?
-            sons.append child
-            husband.sons.append(child) unless husband.nil?
-          elsif child.female?
-            daughters.append child
-            husband.daughters.append(child) unless husband.nil?
-          end
+        child = Member.new(name: child_name, gender: gender)
+        child.mother = self
+        child.father = husband
 
-          children.append(child)
-          husband.children.append(child) unless husband.nil?
+        if child.male?
+          sons.append child
+          husband.sons.append(child) unless husband.nil?
+        elsif child.female?
+          daughters.append child
+          husband.daughters.append(child) unless husband.nil?
         end
+
+        children.append(child)
+        husband.children.append(child) unless husband.nil?
       end
 
       def mother_brothers

@@ -29,11 +29,11 @@ class Family
                   :father, :mother, :daughters, :children
 
     def self.find_by_name(name)
-      all.find { |m| m.name.downcase == name.downcase }
+      all.find { |m| m.name == name }
     end
 
     def self.find_by_name_and_gender(name, gender)
-      all.find { |m| m.name.downcase == name.downcase && m.gender == gender.downcase.to_sym }
+      all.find { |m| m.name == name && m.gender == gender.downcase.to_sym }
     end
 
     def self.find_by_name_and_gender!(name, gender)

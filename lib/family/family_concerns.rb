@@ -32,9 +32,7 @@ class Family
       def add_child(mother_name:, child_name:, gender:)
         mother = Member.find_by_name_and_gender! mother_name, FEMALE
 
-        new_child = Member.new(name: child_name, gender: gender)
-
-        mother.add_child new_child
+        new_child = mother.add_child(child_name: child_name, gender: gender)
 
         puts CHILD_ADDED
 
