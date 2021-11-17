@@ -8,10 +8,12 @@ class Family
   class UnknownFamilyRelationship < RuntimeError; end
 
   # Commands
-  ADD_CHILD = 'ADD_CHILD'.freeze
-  GET_RELATIONSHIP = 'GET_RELATIONSHIP'.freeze
-  ADD_MEMBER = 'ADD_MEMBER'.freeze
-  MAKE_COUPLE = 'MAKE_COUPLE'.freeze
+  COMMANDS = [
+    ADD_CHILD = 'ADD_CHILD'.freeze,
+    GET_RELATIONSHIP = 'GET_RELATIONSHIP'.freeze,
+    ADD_MEMBER = 'ADD_MEMBER'.freeze,
+    MAKE_COUPLE = 'MAKE_COUPLE'.freeze
+  ]
 
   # Genders
   VALID_GENDERS = [
@@ -42,7 +44,12 @@ class Family
   ].freeze
 
   def initialize
+    Member.all = []
     seed_members!
+  end
+
+  def parse_input_from_cli(string_input)
+    parse_string_input string_input
   end
 
   private
@@ -55,27 +62,7 @@ class Family
     family_member_inputs = read_from_seeds
 
     family_member_inputs.each do |line|
-      inputs = line.gsub(/"/, '').split(' ')
-      command = inputs.shift
-
-      case command
-      when ADD_CHILD
-        mother_name, child_name, gender = inputs
-
-        add_child(mother_name: mother_name, child_name: child_name, gender: gender)
-      when GET_RELATIONSHIP
-        name, relationship = inputs
-
-        get_relationship(name: name, relationship: relationship)
-      when ADD_MEMBER
-        name, gender = inputs
-
-        add_member(name: name, gender: gender)
-      when MAKE_COUPLE
-        female_name, male_name = inputs
-
-        make_couple(female_name: female_name, male_name: male_name)
-      end
+      parse_string_input line
     end
   end
 

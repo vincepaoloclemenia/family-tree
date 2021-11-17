@@ -5,6 +5,30 @@ class Family
     end
 
     module Commands
+      def parse_string_input(string_input)
+        inputs = string_input.gsub(/"/, '').split(' ')
+        command = inputs.shift
+
+        case command
+        when ADD_CHILD
+          mother_name, child_name, gender = inputs
+
+          add_child(mother_name: mother_name, child_name: child_name, gender: gender)
+        when GET_RELATIONSHIP
+          name, relationship = inputs
+
+          get_relationship(name: name, relationship: relationship)
+        when ADD_MEMBER
+          name, gender = inputs
+
+          add_member(name: name, gender: gender)
+        when MAKE_COUPLE
+          female_name, male_name = inputs
+
+          make_couple(female_name: female_name, male_name: male_name)
+        end
+      end
+
       def add_child(mother_name:, child_name:, gender:)
         mother = Member.find_by_name_and_gender! mother_name, FEMALE
 
@@ -17,6 +41,7 @@ class Family
         new_child
       rescue PersonNotFound, InvalidGender => _e
         puts CHILD_ADDITION_FAILED
+        false
       end
 
       def add_member(name:, gender:)
@@ -26,6 +51,9 @@ class Family
         puts MEMBER_ADDED
 
         member
+      rescue InvalidGender => e
+        puts e.message
+        false
       end
 
       def get_relationship(name:, relationship:)
@@ -48,6 +76,7 @@ class Family
         output
       rescue PersonNotFound, UnknownFamilyRelationship => e
         puts e.message
+        false
       end
 
       def make_couple(female_name:, male_name:)
@@ -56,8 +85,10 @@ class Family
 
         bride.spouse = groom
         puts COUPLE_MARRIED
+        true
       rescue PersonNotFound => e
         puts e.message
+        false
       end
     end
   end
