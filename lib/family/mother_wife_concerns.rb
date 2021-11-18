@@ -28,6 +28,8 @@ class Family
 
         children.append(child)
         husband.children.append(child) unless husband.nil?
+
+        child
       end
 
       def mother_brothers
